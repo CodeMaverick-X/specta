@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "mongodb"
+
+    url = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Phone {
+    id    String   @id @default(auto()) @map("_id") @db.ObjectId
+    name  String
+    model String[]
+    brand String
+    price Int // should be stored in cents
+
+    releaseDate DateTime
+    createdAt   DateTime @default(now())
+    updatedat   DateTime @updatedAt
+    featured    Boolean?
+    newRelease  Boolean?
+    isAvailable Boolean?
+    spec        Spec?
+}
+
+model Spec {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    camera   Camera
+    battery  Battery
+    screen   Screen
+    platform Platform
+    sensor   Sensor
+    build    Build
+
+    phone   Phone  @relation(fields: [phoneId], references: [id])
+    phoneId String @unique @db.ObjectId
+}
+
+type Camera {
+    frontCamera String
+    backCamera  String
+    features    String
+    rating      Int
+}
+
+type Battery {
+    capacity         Int
+    type             String
+    wattage          Int
+    wirelessCharging Boolean
+    features         String
+    rating           Int
+}
+
+type Screen {
+    size           Float
+    type           String
+    peakBrightness Int
+    resolution     String
+    protection     String
+    features       String
+    rating         Int
+}
+
+type Platform {
+    os        String
+    chipset   String
+    cpu       String
+    gpu       String
+    memory    String
+    benchmark String @default("N/A")
+    features  String
+    rating    Int
+}
+
+type Sensor {
+    fingerprint     String
+    faceRecognition String
+
+    accelerometer Boolean
+    gyroscope     Boolean
+    magnetometer  Boolean
+    proximity     Boolean
+    ambientLight  Boolean
+    barometer     Boolean
+
+    features String
+    rating   Int
+}
+
+type Build {
+    dimensions    String
+    frameMaterial String
+    backMaterail  String
+    weight        Int
+    features      String
+    rating        Int
+}
+
+// rates for the exchange rates
+model rates {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    code String @unique
+    rate Float
+}
