@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode; }) {
             </section>
             <section className="flex flex-row h-[calc(100%-7rem)]">
                 <SideNav />
-                <div className=" w-full h-full">
+                <div className=" w-full h-full max-w-[calc(100%-10rem)] overflow-scroll">
                     {children}
                 </div>
             </section>
