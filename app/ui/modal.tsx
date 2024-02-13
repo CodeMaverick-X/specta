@@ -16,7 +16,7 @@ export default function Modal({ isOpen, onClose, children }: {
     return (
         <div
             onClick={onClose}
-            className='fixed top-0 left-0 w-full h-full backdrop-filter backdrop-blur-sm flex items-center justify-center shadow-md '
+            className='fixed top-0 left-0 w-full h-full backdrop-filter backdrop-blur-sm flex items-center justify-center shadow-md z-20 '
         >
                 {children}
         </div>
