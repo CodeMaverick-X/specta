@@ -1,7 +1,14 @@
 import SideNav from "../ui/sidenav";
 import { SearchBar } from "../ui/search";
+import SignUp from "../ui/signUp";
 
 export default function Layout({ children }: { children: React.ReactNode; }) {
+    let open = false;
+
+    const handleSignupClick = () => {
+        open = true;
+    };
+
 
     return (
         <main className="bg-[#060B1A] h-screen ">
@@ -11,6 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode; }) {
                 <SearchBar />
 
                 <button className="inline pr-3 mt-10 bg-[#1D5F1B] h-10 w-24 p-1 mr-5 rounded-sm border-[#5BE94F] border hover:bg-[#5BE94F] hover:text-black">Signin</button>
+                <SignUp membuka={true} />
             </section>
             <section className="flex flex-row h-[calc(100%-7rem)]">
                 <SideNav />
