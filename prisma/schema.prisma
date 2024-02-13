@@ -25,6 +25,8 @@ model Phone {
     newRelease  Boolean?
     isAvailable Boolean?
     spec        Spec?
+    User        Users?   @relation(fields: [usersId], references: [id])
+    usersId     String?  @db.ObjectId
 }
 
 model Spec {
@@ -108,4 +110,15 @@ model rates {
 
     code String @unique
     rate Float
+}
+
+model Users {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    username      String   @unique
+    password      String
+    is_admin      Boolean
+    created_at    DateTime @default(now())
+    contributions Phone[]
+    expert        Boolean
 }

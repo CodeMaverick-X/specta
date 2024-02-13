@@ -740,6 +740,11 @@ export async function fetchFilteredPhone(query: string, currentPage: number) {
 
 }
 
+/**
+ * 
+ * @param query query string to search by string price or model or brand
+ * @returns total number of pages found [not the pages just the number]
+ */
 export async function fetchPhonePages(query: string) {
     const itemsPerPage = 4;
 
@@ -784,6 +789,11 @@ export async function fetchPhonePages(query: string) {
 
 }
 
+/**
+ * 
+ * @param id fetch specific phone based on id
+ * @returns phone object
+ */
 export async function fetchPhoneWithSpec(id: string) {
     const phone = await prisma.phone.findUnique({
         where: {
@@ -796,6 +806,12 @@ export async function fetchPhoneWithSpec(id: string) {
     return phone;
 }
 
+/**
+ * 
+ * @param code the country code to fetch rate
+ * @returns code obj containing code and rate
+ */
+
 export async function getExhangeRate(code: string) {
     const codeVal = await prisma.rates.findUnique({
         where: {
@@ -804,4 +820,27 @@ export async function getExhangeRate(code: string) {
     })
 
     return codeVal
+}
+
+
+/**
+ * 
+ * @param userObject userobject that contains username and string
+ * @returns user object created
+ */
+export async function createUser(userObject: {
+    username: string,
+    password: string,
+}) {
+    const user = await prisma.users.create({
+        data: {
+            username: userObject.username,
+            password: userObject.password,
+            is_admin: false,
+            expert: false,
+        }
+    })
+
+    return user
+
 }

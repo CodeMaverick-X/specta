@@ -1,5 +1,5 @@
 'use client';
-import Modal from "./modal";
+import Modal from "../modal";
 import { Kalam } from "next/font/google";
 import { ReactNode, MouseEvent, useState } from 'react';
 
@@ -9,16 +9,8 @@ const kalam = Kalam({
 });
 
 // mmebuka means open in harry potter :)
-export default function SignUp({ membuka }: { membuka: boolean; }) {
-    const [open, setOpen] = useState(membuka);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
+export default function SignUp({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+    
 
     const handleInnerClick = (e: MouseEvent<HTMLDivElement>) => {
         // Prevent the click event from reaching the outer div
@@ -75,7 +67,7 @@ export default function SignUp({ membuka }: { membuka: boolean; }) {
                     <div className="flex flex-row justify-between">
 
                         <div className=" text-gray-500">aready a part of us? <span className="text-[#5BE94F]">login</span> </div>
-                        <button className="inline my-3 bg-[#1D5F1B] h-10 w-24 p-1 rounded-sm border-[#5BE94F] border hover:bg-[#5BE94F] hover:text-black">Sign Up</button>
+                        <button className="inline text-gray-300 my-3 bg-[#1D5F1B] h-10 w-24 p-1 rounded-sm border-[#5BE94F] border hover:bg-[#5BE94F] hover:text-black">Sign Up</button>
                     </div>
 
                 </div>
