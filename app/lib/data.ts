@@ -844,3 +844,13 @@ export async function createUser(userObject: {
     return user
 
 }
+
+export async function usernameIsUnique(username: string) {
+    const isUnique = await prisma.users.findUnique({
+        where: {
+            username: username
+        }
+    })
+
+    return isUnique
+}

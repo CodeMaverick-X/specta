@@ -2,13 +2,16 @@ import { fetchPhoneWithSpec } from "@/app/lib/data";
 import Image from "next/image";
 import SpecTab from "@/app/ui/pones/spec";
 import { capitalize } from "@/app/lib/utils";
+import { notFound } from 'next/navigation';
 
 export default async function Page({ params }: { params: { id: string; }; }) {
     const id = params.id;
     // const phone = {name: 'Samsung S24 Ultra', id: 'tshsyshs'};
     const phone = await fetchPhoneWithSpec(id);
 
-    
+    if (!phone) notFound();
+
+
 
 
     return (
