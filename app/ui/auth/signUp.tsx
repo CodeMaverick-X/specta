@@ -5,6 +5,7 @@ import { ReactNode, MouseEvent, useState } from 'react';
 import { signUp } from "@/app/lib/auth";
 import { useFormState } from "react-dom";
 import FormInpute from "./inpute-field";
+import { useRef } from "react";
 
 const kalam = Kalam({
     weight: "300",
@@ -17,9 +18,7 @@ export default function SignUp({ open, handleClose }: { open: boolean, handleClo
 
     const initialState = { message: '', errors: {} };
     const [state, dispatch] = useFormState(signUp, initialState);
-
-    console.log(state) // wtf is happeneing
-
+    const passwordRef = useRef<HTMLInputElement | null>(null);
 
     const handleInnerClick = (e: MouseEvent<HTMLFormElement>) => {
         // Prevent the click event from reaching the outer div
@@ -44,10 +43,10 @@ export default function SignUp({ open, handleClose }: { open: boolean, handleClo
                 <div className=" flex flex-col  pr-16  w-2/5 space-y-0">
                     <div className={` text-lg ${kalam.className} text-6xl text-[#5BE94F] self-center pb-14`}>SPECTA</div>
 
-                    <FormInpute name="username" state={state} id={'signup-username'} />
-                    <FormInpute name="password" state={state}  id="signup-password"/>
-                    <FormInpute name="confirm password" state={state} id="signup-confirm"/>
-
+                    <FormInpute name="username" state={state} id={'signup-username'} passRef={null} slug="username"/>
+                    <FormInpute name="password" state={state}  id="signup-password" passRef={passwordRef} slug="password"/>
+                    <FormInpute name="confirm password" state={state} id="signup-confirm" passRef={passwordRef} slug="confirmPassword"/>
+                        {/* TODO: find a way around the usage of ref here */}
                     <div className="flex flex-row justify-between pt-5">
 
                         <div className=" text-gray-500">aready a part of us? <span className="text-[#5BE94F]">login</span> </div>
