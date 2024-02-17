@@ -1,6 +1,6 @@
 'use client';
 
-import SignUp from "./signUp";
+import SignUp from "./sign-up-form";
 import { useState } from "react";
 
 
@@ -21,7 +21,7 @@ export default function Auth() {
         onClick={handleSignIn}>Signin</button>;
     const logout = <button className="inline pr-3 mt-10 bg-[#78242e] h-10 w-24 p-1 mr-5 rounded-sm border-[#d73c3c] border hover:bg-[#e04848] hover:text-black">Logout</button>;
 
-    
+
     const [button, setButton] = useState(signin);
 
     return (

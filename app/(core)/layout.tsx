@@ -1,6 +1,6 @@
 import SideNav from "../ui/sidenav";
 import { SearchBar } from "../ui/search";
-import SignUp from "../ui/auth/signUp";
+import SignUp from "../ui/auth/sign-up-form";
 import Auth from "../ui/auth/authcontrol";
 
 export default function Layout({ children }: { children: React.ReactNode; }) {

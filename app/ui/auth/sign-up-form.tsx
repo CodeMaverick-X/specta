@@ -2,10 +2,12 @@
 import Modal from "../modal";
 import { Kalam } from "next/font/google";
 import { ReactNode, MouseEvent, useState } from 'react';
-import { signUp } from "@/app/lib/auth";
+import { signUp } from "@/app/lib/auth-actions";
 import { useFormState } from "react-dom";
 import FormInpute from "./inpute-field";
 import { useRef } from "react";
+// import { useSession } from "next-auth/react";
+import { date } from "zod";
 
 const kalam = Kalam({
     weight: "300",
@@ -24,6 +26,11 @@ export default function SignUp({ open, handleClose }: { open: boolean, handleClo
         // Prevent the click event from reaching the outer div
         e.stopPropagation();
     };
+
+
+    // const { data: session, status } = useSession()
+    // console.log(state?.message, session);
+    
 
     return (
         <Modal onClose={handleClose} isOpen={open}>

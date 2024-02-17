@@ -845,6 +845,11 @@ export async function createUser(userObject: {
 
 }
 
+/**
+ * 
+ * @param username username for check if its unigue
+ * @returns boolean to confirm if a match was found
+ */
 export async function usernameIsUnique(username: string) {
     const isUnique = await prisma.users.findUnique({
         where: {
@@ -852,5 +857,20 @@ export async function usernameIsUnique(username: string) {
         }
     })
 
-    return isUnique
+    return !!isUnique
+}
+
+/**
+ * 
+ * @param username username to find user
+ * @returns user object
+ */
+export async function getUser(username: string) {
+    const user = await prisma.users.findUnique({
+        where: {
+            username: username
+        }
+    })
+
+    return user
 }
