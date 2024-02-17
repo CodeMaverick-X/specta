@@ -2,8 +2,11 @@ import SideNav from "../ui/sidenav";
 import { SearchBar } from "../ui/search";
 import SignUp from "../ui/auth/sign-up-form";
 import Auth from "../ui/auth/authcontrol";
+import middleware from "@/middleware";
 
-export default function Layout({ children }: { children: React.ReactNode; }) {
+export default async function Layout({ children }: { children: React.ReactNode; }) {
+
+    const session = await middleware()
     let open = false;
 
     const handleSignupClick = () => {
@@ -20,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode; }) {
 
                 {/* <button className="inline pr-3 mt-10 bg-[#1D5F1B] h-10 w-24 p-1 mr-5 rounded-sm border-[#5BE94F] border hover:bg-[#5BE94F] hover:text-black">Signin</button>
                 <SignUp membuka={true} /> */}
-                <Auth/>
+                <Auth session={session}/>
             </section>
             <section className="flex flex-row h-[calc(100%-7rem)]">
                 <SideNav />

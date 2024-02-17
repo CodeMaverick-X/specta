@@ -2,22 +2,41 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { getUser } from './app/lib/data';
- 
+import { z } from 'zod';
+
+
+// zod schema
+const UserSchema = z.object({
+    username: z.string().max(10).min(2),
+    password: z.string().min(8),
+});
+
+
 export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  providers: [
-    Credentials({
-        async authorize(credentials) {
-            const {username, password } = eval(String(credentials))
-            const user = await getUser(username);
+    ...authConfig,
+    providers: [
+        Credentials({
+            async authorize(credentials) {
 
-            if (!user) return null
-            if (user.password === password) return user // TODO: use bcrypt
+                const parsedCredentials = UserSchema.safeParse(credentials);
+                console.log(parsedCredentials);
 
-            console.log('invalid credentials'); // remove
-            return null
 
-        },
-      }),
-],
+                if (parsedCredentials.success) {
+
+                    const { username, password } = parsedCredentials.data;
+                    const user = await getUser(username);
+
+                    if (!user) return null;
+
+                    if (user.password === password) return user; // TODO: use bcrypt
+                }
+
+
+                console.log('invalid cred');
+                return null;
+
+            },
+        }),
+    ],
 });

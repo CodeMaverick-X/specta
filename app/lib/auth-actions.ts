@@ -1,7 +1,12 @@
 'use server';
 import { createUser, usernameIsUnique } from "./data";
 import { z } from 'zod';
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
+// import auth from '@/middleware'
+import middleware from "@/middleware";
+import { revalidatePath } from 'next/cache';
+
+
 // state type for the useformstate
 export type State = {
     message?: string | null;
@@ -51,31 +56,37 @@ export async function signUp(prevState: State, formData: FormData) {
     const useroObj = validatedFields.data;
     const usernameTaken = await usernameIsUnique(useroObj.username);
     if (usernameTaken) {
-        // throw new Error('username taken chose somthing else'); //TODO: find a better way to handle this dont just throw an error
         return {
-            errors: {username: ['someone beat you to it, choose somethiing else']}
-        }
+            errors: { username: ['someone beat you to it, choose somethiing else'] }
+        };
     }
 
 
     // create the user before sign in
     try {
-
         const user = await createUser(useroObj);
-
     } catch (error) {
         // database error
         return {
             message: 'something went wrong please try again later',
         };
     }
-    console.log(useroObj);
 
-    // sign in goes here
-    signIn(`${useroObj}`)
+    // sign in user to session
+    await signIn('credentials', formData);
+
+    revalidatePath('/', 'layout');
 
     return {
         message: 'signed up successfully'
     };
 
+}
+
+/**
+ * Log out user
+ * @param formData Not really needed
+ */
+export async function Logout(formData: FormData) {
+  await  signOut()
 }
