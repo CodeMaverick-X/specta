@@ -87,6 +87,6 @@ export async function signUp(prevState: State, formData: FormData) {
  * Log out user
  * @param formData Not really needed
  */
-export async function Logout(formData: FormData) {
+export async function Logout() {
   await  signOut()
 }

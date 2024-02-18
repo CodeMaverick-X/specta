@@ -1,12 +1,16 @@
 'use client';
 
 import SignUp from "./sign-up-form";
+import LogIN from "./login-form";
 import { useState } from "react";
 import { Logout } from "@/app/lib/auth-actions";
 import { Session } from "next-auth";
+import { signIn } from "next-auth/react";
 
+export type AuthFormType = 'signup' | 'login'
 
 export default function Auth({ session }: { session: Session | null; }) {
+
     const [loggedIn, setLoggedIn] = useState(!!session);
     const [open, setOpen] = useState(false);
 
@@ -32,10 +36,15 @@ export default function Auth({ session }: { session: Session | null; }) {
 
 
     const button = loggedIn ? logout : signin;
+
+    const authFormCheck = useState<AuthFormType>('signup')
     return (
         <>
             {button}
-            <SignUp open={open} handleClose={handleClose} />
+            {/* <SignUp open={open} handleClose={handleClose} /> */}
+            {/* {authForm} */}
+            <SignUp open={open} handleClose={handleClose} authFormCheck={authFormCheck} />
+            <LogIN open={open} handleClose={handleClose} authFormCheck={authFormCheck}/>
         </>
     );
 }
