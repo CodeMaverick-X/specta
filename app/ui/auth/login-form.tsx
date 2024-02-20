@@ -2,7 +2,7 @@
 import Modal from "../modal";
 import { Kalam } from "next/font/google";
 import { ReactNode, MouseEvent, useState, SetStateAction, Dispatch } from 'react';
-import { signUp } from "@/app/lib/auth-actions";
+import { LogIn } from "@/app/lib/auth-actions";
 import { useFormState } from "react-dom";
 import FormInpute from "./inpute-field";
 import { useRef } from "react";
@@ -27,7 +27,7 @@ export default function LogIN({ open, handleClose, authFormCheck }: { open: bool
     };
 
     const initialState = { message: '', errors: {} };
-    const [state, dispatch] = useFormState(signUp, initialState);
+    const [state, dispatch] = useFormState(LogIn, initialState);
 
     const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,10 +35,6 @@ export default function LogIN({ open, handleClose, authFormCheck }: { open: bool
         // Prevent the click event from reaching the outer div
         e.stopPropagation();
     };
-
-
-    // const { data: session, status } = useSession()
-    // console.log(state?.message, session);
 
 
     return (

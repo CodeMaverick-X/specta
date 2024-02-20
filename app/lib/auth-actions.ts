@@ -5,6 +5,7 @@ import { signIn, signOut } from "@/auth";
 // import auth from '@/middleware'
 import middleware from "@/middleware";
 import { revalidatePath } from 'next/cache';
+import { AuthError } from 'next-auth'
 
 
 // state type for the useformstate
@@ -73,7 +74,8 @@ export async function signUp(prevState: State, formData: FormData) {
     }
 
     // sign in user to session
-    await signIn('credentials', formData);
+    const authUser = await signIn('credentials', formData);
+    
 
     revalidatePath('/', 'layout');
 
@@ -83,10 +85,51 @@ export async function signUp(prevState: State, formData: FormData) {
 
 }
 
+export async function LogIn(prevState: State, formData: FormData) {
+    const { username, password } = {
+        username: formData.get('username'),
+        password: formData.get('password'),
+    };
+
+    if (!username || !password) return {
+        errors: { username: ['wrong username or password'] }
+    };
+
+
+    try {
+        await signIn('credentials', formData);
+      } catch (error) {
+        if (error instanceof AuthError) {
+          switch (error.type) {
+            case 'CredentialsSignin':
+            return {
+                errors: {username: ['wrong username or password bro']} as any,
+                message: 'failed authentication',
+            };
+            default:
+                return {
+                    errors: {username: ['wrong username or password bro']} as any,
+                    message: 'failed authentication',
+                };
+          }
+        }
+        throw error;
+      }
+
+    revalidatePath('/', 'layout');
+
+    return {
+        message: 'logged in successfully'
+    };
+}
+
+
 /**
  * Log out user
  * @param formData Not really needed
  */
 export async function Logout() {
-  await  signOut()
+    
+    // doesnt work for some reason: DEBUG, currently using an alternative .then in form
+    await signOut();
 }

@@ -21,7 +21,7 @@ export default function SideNav() {
                     <Link
                         href={linkObject.href}
                         key={linkObject.name}
-                        className={clsx("px-5 text-sm pl-7 py-2 hover:bg-[#555755] hover:bg-opacity-40 hover:text-white", {'bg-[#31BE1A] bg-opacity-40': pathName === linkObject.href})}>
+                        className={clsx("px-5 text-sm pl-7 py-2 hover:bg-[#555755] hover:bg-opacity-40 hover:text-white", {'bg-[#31BE1A] bg-opacity-40': pathName.startsWith(linkObject.href)})}>
                         {linkObject.name}
                     </Link>);
             })}
@@ -31,7 +31,7 @@ export default function SideNav() {
                     <Link
                         href={linkObject.href}
                         key={linkObject.name}
-                        className={clsx("px-5 text-sm pl-7 py-2 hover:bg-[#555755] hover:bg-opacity-40 hover:text-white", {'bg-[#31BE1A]': pathName === linkObject.href})}>
+                        className={clsx("px-5 text-sm pl-7 py-2 hover:bg-[#555755] hover:bg-opacity-40 hover:text-white", {'bg-[#31BE1A]': pathName.startsWith(linkObject.href)})}>
                         {linkObject.name}
                     </Link>);
             })}

@@ -35,10 +35,6 @@ export default function SignUp({ open, handleClose, authFormCheck }: { open: boo
     };
 
 
-    // const { data: session, status } = useSession()
-    // console.log(state?.message, session);
-    
-
     return (
         <Modal onClose={handleClose} isOpen={open}>
             <form className="flex flex-row bg-[#0D1533] w-9/12 h-5/6 p-16 rounded-md shadow-black shadow-md justify-between pt-20"

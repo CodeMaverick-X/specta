@@ -3,6 +3,7 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { getUser } from './app/lib/data';
 import { z } from 'zod';
+import type { NextAuthConfig, User } from "next-auth";
 
 
 // zod schema
@@ -12,7 +13,9 @@ const UserSchema = z.object({
 });
 
 
+
 export const { auth, signIn, signOut } = NextAuth({
+    debug: true,
     ...authConfig,
     providers: [
         Credentials({
@@ -23,15 +26,16 @@ export const { auth, signIn, signOut } = NextAuth({
 
 
                 if (parsedCredentials.success) {
-
+                    
                     const { username, password } = parsedCredentials.data;
                     const user = await getUser(username);
-
+                    
                     if (!user) return null;
-
-                    if (user.password === password) return user; // TODO: use bcrypt
+                    
+                    if (user.password === password) {
+                        return user;
+                    } // TODO: use bcrypt
                 }
-
 
                 console.log('invalid cred');
                 return null;
@@ -39,4 +43,24 @@ export const { auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
+    callbacks: {
+        authorized(params) {
+            // console.log(params);
+            return !!params.auth?.user;
+        },
+        async session({ session, token, user }) {
+            // Send properties to the client, like an access_token from a provider.
+
+            return session;
+        },
+        async jwt({ token, user }) {
+            // console.log(user);
+            
+            if (!token.sub) return token
+            if (user)
+            token.name = user?.username
+
+            return token;
+        }
+    },
 });
