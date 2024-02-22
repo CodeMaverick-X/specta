@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
-import { getUser } from './app/lib/data';
+import { getUser, getUserById } from './app/lib/data';
 import { z } from 'zod';
 import type { NextAuthConfig, User } from "next-auth";
 
@@ -26,12 +26,12 @@ export const { auth, signIn, signOut } = NextAuth({
 
 
                 if (parsedCredentials.success) {
-                    
+
                     const { username, password } = parsedCredentials.data;
                     const user = await getUser(username);
-                    
+
                     if (!user) return null;
-                    
+
                     if (user.password === password) {
                         return user;
                     } // TODO: use bcrypt
@@ -55,10 +55,15 @@ export const { auth, signIn, signOut } = NextAuth({
         },
         async jwt({ token, user }) {
             // console.log(user);
-            
-            if (!token.sub) return token
-            if (user)
-            token.name = user?.username
+
+            if (!token.sub) return token;
+            if (user) {
+
+                const userObj = await getUserById(token.sub);
+                token.name = userObj?.username;
+                token.user = userObj
+            }
+
 
             return token;
         }

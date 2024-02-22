@@ -862,14 +862,30 @@ export async function usernameIsUnique(username: string) {
 }
 
 /**
- * 
+ * get the user by username
  * @param username username to find user
- * @returns user object
+ * @returns user if found or null
  */
 export async function getUser(username: string) {
     const user = await prisma.users.findUnique({
         where: {
             username: username
+        }
+    })
+
+    return user
+}
+
+
+/**
+ * get the user by id
+ * @param id user id to search
+ * @returns user if found or null
+ */
+export async function getUserById(id: string) {
+    const user = await prisma.users.findUnique({
+        where: {
+            id: id
         }
     })
 

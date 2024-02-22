@@ -1,6 +1,7 @@
 'use client';
 import { ReactNode } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useDebouncedCallback } from "use-debounce";
 
 
 
@@ -36,7 +37,7 @@ function HomeSearch() {
             <input
                 type="text"
                 placeholder="search"
-                className="block w-full rounded-sm border-0 py-1.5 pl-7 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl">
+                className="block w-full rounded-sm border-0 py-1.5 pb-2 pl-5 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl">
 
             </input>
         </form>
@@ -49,16 +50,18 @@ function PhoneSearch() {
     const pathName = usePathname();
     const { replace } = useRouter();
 
-    const handleSearch = (term: string) => {
-        const params = new URLSearchParams(searchParams);
-        params.set('page', '1');
-        if (term) {
-            params.set('query', term);
-        } else {
-            params.delete('query');
-        }
-        replace(`${pathName}?${params.toString()}`);
-    };
+    const handleSearch = useDebouncedCallback(
+        (term: string) => {
+            const params = new URLSearchParams(searchParams);
+            params.set('page', '1');
+            if (term) {
+                params.set('query', term);
+            } else {
+                params.delete('query');
+            }
+            replace(`${pathName}?${params.toString()}`);
+        }, 300)
+
 
     return (
         <form className="inline pt-10">
@@ -66,7 +69,7 @@ function PhoneSearch() {
                 onChange={(e) => handleSearch(e.target.value)}
                 type="text"
                 placeholder="search phone"
-                className="block w-full rounded-sm border-0 py-1.5 pl-7 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl">
+                className="block w-full rounded-sm border-0 py-1.5 pb-2 pl-5 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl ">
 
             </input>
         </form>
@@ -78,7 +81,7 @@ function LaptopSearch() {
             <input
                 type="text"
                 placeholder="search laptop"
-                className="block w-full rounded-sm border-0 py-1.5 pl-7 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl">
+                className="block w-full rounded-sm border-0 py-1.5 pb-2 pl-5 pr-20 text-white placeholder:text-gray-400 focus:ring-0 bg-[#0D1533] shadow-xl">
 
             </input>
         </form>
