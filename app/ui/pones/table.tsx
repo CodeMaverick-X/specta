@@ -14,7 +14,7 @@ export default async function Table(
             {phones.map((phone) => {
                 return (
                     <Link href={`/phones/${phone.id}`} key={phone.id}>
-                        <div  className="bg-[#0D1533] flex flex-row p-4 rounded-sm mr-36 mb-5 hover:shadow-lg hover:border border-[#419c41] ">
+                        <div  className="bg-[#0D1533] flex flex-row p-4 rounded-sm mr-36 mb-5 hover:shadow-lg border border-[#0D1533]  hover:border-[#419c41] ">
                             <Image
                                 src={'/gsmarena_002.jpg'}
                                 alt="pic of phone"
